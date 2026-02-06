@@ -60,7 +60,7 @@
     font-size: 13px;
     padding: 6px 14px;
     right: 0;
-    pointer-events: none; /* 🔥 critical */
+    pointer-events: none;
   }
 
   .popup {
@@ -75,13 +75,6 @@
     font-size: 14px;
     display: none;
     white-space: nowrap;
-  }
-
-  img {
-    width: 100%;
-    max-width: 240px;
-    border-radius: 15px;
-    margin-top: 16px;
   }
 
   @media (max-width: 480px) {
@@ -148,7 +141,6 @@
     count++;
   }
 
-  // 🔥 Handle taps at container level (perfect fix)
   buttons.addEventListener("pointerdown", (e) => {
     const noRect = noBtn.getBoundingClientRect();
     const x = e.clientX;
@@ -177,10 +169,14 @@
         text-align:center;
         padding:20px;">
         <h1 style="font-size:30px;">💖 YAYYY I love you 😚💖</h1>
-         <img src="us.jpeg">
         
-        <h2> Excellent choice. 10/10 decision 👌😂<br>
-        ”also “You just unlocked premium Valentine benefits 🎉💝” 🥰</h2>
+        <video autoplay loop muted style="width:100%; max-width:400px; border-radius:15px; margin-top:16px;">
+          <source src="just.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+        <h2>Excellent choice. 10/10 decision 👌😂<br>
+        You just unlocked premium Valentine benefits 🎉💝 🥰</h2>
       </div>
     `;
   };
