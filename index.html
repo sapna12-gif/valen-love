@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffd6e8, #fff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+
+  .card {
+    background: white;
+    padding: 28px;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+
+  .buttons {
+    position: relative;
+    height: 80px;
+    user-select: none;
+  }
+
+  button {
+    border: none;
+    border-radius: 25px;
+    position: absolute;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #yesBtn {
+    background: #ff4d6d;
+    color: white;
+    font-size: 20px;
+    padding: 14px 38px;
+    left: 0;
+    z-index: 2;
+    pointer-events: auto;
+  }
+
+  #noBtn {
+    background: #ddd;
+    font-size: 13px;
+    padding: 6px 14px;
+    right: 0;
+    pointer-events: none; /* 🔥 critical */
+  }
+
+  .popup {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4d6d;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: none;
+    white-space: nowrap;
+  }
+
+  img {
+    width: 100%;
+    max-width: 240px;
+    border-radius: 15px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 480px) {
+    h2 { font-size: 24px; }
+    #yesBtn { font-size: 22px; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Hey Love, Will you be my Valentine? 💖</h2>
+
+  <div class="buttons" id="buttons">
+    <div class="popup" id="popup"></div>
+    <button id="yesBtn">YES 💕</button>
+    <button id="noBtn">NO 😏</button>
+  </div>
+</div>
+
+<script>
+  const buttons = document.getElementById("buttons");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const popup = document.getElementById("popup");
+
+  const messages = [
+    "Oh really? 🤭",
+    "Think again 😌",
+    "Are you sure? 👀",
+    "Don’t be shy 😏",
+    "My heart says YES 💖",
+    "You know the answer 😉",
+    "Still waiting 😍",
+    "Come on 😄",
+    "Almost there 💕",
+    "Okay okay 😇"
+  ];
+
+  let count = 0;
+
+  function moveNo() {
+    const areaWidth = buttons.offsetWidth;
+    const areaHeight = buttons.offsetHeight;
+
+    const maxX = areaWidth - noBtn.offsetWidth - 10;
+    const maxY = areaHeight - noBtn.offsetHeight - 10;
+
+    let x, y;
+    do {
+      x = Math.random() * maxX;
+      y = Math.random() * maxY;
+    } while (x < 120);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.style.right = "auto";
+
+    popup.textContent = messages[count % messages.length];
+    popup.style.display = "block";
+
+    setTimeout(() => popup.style.display = "none", 900);
+    count++;
+  }
+
+  // 🔥 Handle taps at container level (perfect fix)
+  buttons.addEventListener("pointerdown", (e) => {
+    const noRect = noBtn.getBoundingClientRect();
+    const x = e.clientX;
+    const y = e.clientY;
+
+    if (
+      x >= noRect.left &&
+      x <= noRect.right &&
+      y >= noRect.top &&
+      y <= noRect.bottom
+    ) {
+      moveNo();
+    }
+  });
+
+  yesBtn.onclick = () => {
+    document.body.innerHTML = `
+      <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+        background:#ffe6f0;
+        font-family:Arial;
+        text-align:center;
+        padding:20px;">
+        <h1 style="font-size:30px;">💖 YAYYY I love you 😚💖</h1>
+         <img src="us.jpeg">
+        
+        <h2> Excellent choice. 10/10 decision 👌😂<br>
+        ”also “You just unlocked premium Valentine benefits 🎉💝” 🥰</h2>
+      </div>
+    `;
+  };
+</script>
+
+</body>
+</html>
