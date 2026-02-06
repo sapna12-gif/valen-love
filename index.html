@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -35,14 +35,18 @@
   .buttons {
     position: relative;
     height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px; /* keeps NO near YES */
     user-select: none;
   }
 
   button {
     border: none;
     border-radius: 25px;
-    position: absolute;
     -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
   }
 
   #yesBtn {
@@ -50,17 +54,15 @@
     color: white;
     font-size: 20px;
     padding: 14px 38px;
-    left: 0;
     z-index: 2;
-    pointer-events: auto;
   }
 
   #noBtn {
     background: #ddd;
     font-size: 13px;
     padding: 6px 14px;
-    right: 0;
-    pointer-events: none;
+    position: relative;
+    pointer-events: none; /* keep escape behaviour */
   }
 
   .popup {
@@ -94,6 +96,10 @@
     <button id="yesBtn">YES 💕</button>
     <button id="noBtn">NO 😏</button>
   </div>
+
+  <p style="font-size:10px;">
+    Choose wisely… (The NO button gets nervous around cute people 😏)
+  </p>
 </div>
 
 <script>
@@ -118,21 +124,12 @@
   let count = 0;
 
   function moveNo() {
-    const areaWidth = buttons.offsetWidth;
-    const areaHeight = buttons.offsetHeight;
+    const range = 55; // movement range near YES only
 
-    const maxX = areaWidth - noBtn.offsetWidth - 10;
-    const maxY = areaHeight - noBtn.offsetHeight - 10;
+    const offsetX = (Math.random() - 0.5) * range;
+    const offsetY = (Math.random() - 0.5) * range;
 
-    let x, y;
-    do {
-      x = Math.random() * maxX;
-      y = Math.random() * maxY;
-    } while (x < 120);
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-    noBtn.style.right = "auto";
+    noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
 
     popup.textContent = messages[count % messages.length];
     popup.style.display = "block";
@@ -141,16 +138,15 @@
     count++;
   }
 
+  // detect click/tap on NO area
   buttons.addEventListener("pointerdown", (e) => {
-    const noRect = noBtn.getBoundingClientRect();
-    const x = e.clientX;
-    const y = e.clientY;
+    const rect = noBtn.getBoundingClientRect();
 
     if (
-      x >= noRect.left &&
-      x <= noRect.right &&
-      y >= noRect.top &&
-      y <= noRect.bottom
+      e.clientX >= rect.left &&
+      e.clientX <= rect.right &&
+      e.clientY >= rect.top &&
+      e.clientY <= rect.bottom
     ) {
       moveNo();
     }
@@ -168,15 +164,18 @@
         font-family:Arial;
         text-align:center;
         padding:20px;">
+
         <h1 style="font-size:30px;">💖 YAYYY I love you 😚💖</h1>
-        
+
         <video autoplay loop muted style="width:100%; max-width:400px; border-radius:15px; margin-top:16px;">
           <source src="just.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
 
-        <h2>Excellent choice. 10/10 decision 👌😂<br>
-        You just unlocked premium Valentine benefits 🎉💝 🥰</h2>
+        <h2>
+          Excellent choice. 10/10 decision 👌😂<br>
+          You just unlocked premium Valentine benefits 🎉💝 🥰
+        </h2>
       </div>
     `;
   };
